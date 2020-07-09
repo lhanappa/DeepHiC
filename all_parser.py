@@ -8,7 +8,7 @@ res_map = {'5kb': 5_000, '10kb': 10_000, '25kb': 25_000, '50kb': 50_000, '100kb'
 
 # 'train' and 'valid' can be changed for different train/valid set splitting
 set_dict = {'human': list(range(1, 23)) + ['X'],
-            'mouse': list(range(1,20))) + ['X'],
+            'mouse': list(range(1,20)) + ['X'],
             'train': [1, 2, 3, 4, 5, 6, 7, 12, 13, 14, 15, 16, 17, 18], 
             'valid': [8, 9, 10, 11, 19, 20, 21, 22]}
 
