@@ -4,8 +4,8 @@ import argparse
 import multiprocessing
 import torch
 import numpy as np
-from utils.io import compactM, divide, pooling
-from all_parser import *
+from .utils.io import compactM, divide, pooling
+#from .all_parser import *
 
 def deephic_divider(n, high_file, down_file, scale=1, pool_type='max', chunk=40, stride=40, bound=201, lr_cutoff=100, hr_cutoff=255):
     hic_data = np.load(high_file)
