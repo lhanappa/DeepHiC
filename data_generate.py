@@ -10,11 +10,13 @@ from .utils.io import compactM, divide, pooling
 def deephic_divider(n, high_file, down_file, scale=1, pool_type='max', chunk=40, stride=40, bound=201, lr_cutoff=100, hr_cutoff=255):
     hic_data = np.load(high_file)
     down_data = np.load(down_file)
-    compact_idx = hic_data['compact']
+    #compact_idx = hic_data['compact']
     full_size = hic_data['hic'].shape[0]
     # Compacting
-    hic = compactM(hic_data['hic'], compact_idx)
-    down_hic = compactM(down_data['hic'], compact_idx)
+    #hic = compactM(hic_data['hic'], compact_idx)
+    #down_hic = compactM(down_data['hic'], compact_idx)
+    hic = hic_data['hic']
+    down_hic = down_data['hic']
     # Clamping
     hic = np.minimum(hr_cutoff, hic)
     down_hic = np.minimum(lr_cutoff, down_hic)
@@ -25,7 +27,7 @@ def deephic_divider(n, high_file, down_file, scale=1, pool_type='max', chunk=40,
     div_dhic, div_inds = divide(down_hic, n, chunk, stride, bound)
     div_dhic = pooling(div_dhic, scale, pool_type=pool_type, verbose=False).numpy()
     div_hhic, _ = divide(hic, n, chunk, stride, bound, verbose=True)
-    return n, div_dhic, div_hhic, div_inds, compact_idx, full_size
+    return n, div_dhic, div_hhic, div_inds, full_size
 
 if __name__ == '__main__':
     args = data_divider_parser().parse_args(sys.argv[1:])
