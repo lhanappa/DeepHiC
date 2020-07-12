@@ -9,9 +9,9 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import TensorDataset, DataLoader
 
-from models.deephic import Generator, Discriminator
-from models.loss import GeneratorLoss
-from models.ssim import ssim
+from .models.deephic import Generator, Discriminator
+from .models.loss import GeneratorLoss
+from .models.ssim import ssim
 from math import log10
 
 # from all_parser import root_dir
