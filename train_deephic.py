@@ -1,6 +1,5 @@
 import os
 import time
-import visdom
 import numpy as np
 from tqdm import tqdm
 
@@ -40,7 +39,7 @@ def train(data_dir, out_dir, lr=40000, hr=10000,
 
     # prepare training dataset
     train_file = os.path.join(
-        data_dir, 'train' ,f'deephic_{resos}_c{chunk}_s{stride}_b{bound}_{pool}_train.npz')
+        data_dir, 'train', f'deephic_{resos}_c{chunk}_s{stride}_b{bound}_{pool}_train.npz')
     train = np.load(train_file)
 
     train_data = torch.tensor(train['data'], dtype=torch.float)
@@ -77,8 +76,6 @@ def train(data_dir, out_dir, lr=40000, hr=10000,
     # optimizer
     optimizerG = optim.Adam(netG.parameters(), lr=0.0001)
     optimizerD = optim.Adam(netD.parameters(), lr=0.0001)
-
-    #vis = visdom.Visdom(env=f'{visdom_str}-deephic')
 
     best_ssim = 0
     for epoch in range(1, num_epochs+1):
@@ -167,28 +164,6 @@ def train(data_dir, out_dir, lr=40000, hr=10000,
         valid_gscore = valid_result['g_score'] / valid_result['nsamples']
         valid_dscore = valid_result['d_score'] / valid_result['nsamples']
         now_ssim = valid_result['ssim'].item()
-
-        '''if epoch == 1:
-            vis_dloss = vis.line(X=cs((epoch, epoch)), Y=cs((train_dloss, valid_dloss)), opts=dict(
-                title='Discriminator Loss', legend=['Train', 'Test']))
-            vis_gloss = vis.line(X=cs((epoch, epoch)), Y=cs((train_gloss, valid_gloss)), opts=dict(
-                title='Generator Loss', legend=['Train', 'Test']))
-            vis_dscore = vis.line(X=cs((epoch, epoch)), Y=cs((train_dscore, valid_dscore)), opts=dict(
-                title='Discriminator Score of true images', legend=['Train', 'Test']))
-            vis_gscore = vis.line(X=cs((epoch, epoch)), Y=cs((train_gscore, valid_gscore)), opts=dict(
-                title='Generator Score of fake images', legend=['Train', 'Test']))
-            vis_ssim = vis.line([now_ssim], X=[epoch], opts=dict(
-                title='SSIM scores in test dataset'))
-        else:
-            vis.line(X=cs((epoch, epoch)), Y=cs((train_dloss, valid_dloss)),
-                     update='append', win=vis_dloss, opts=dict(legend=['Train', 'Test']))
-            vis.line(X=cs((epoch, epoch)), Y=cs((train_gloss, valid_gloss)),
-                     update='append', win=vis_gloss, opts=dict(legend=['Train', 'Test']))
-            vis.line(X=cs((epoch, epoch)), Y=cs((train_dscore, valid_dscore)),
-                     update='append', win=vis_dscore, opts=dict(legend=['Train', 'Test']))
-            vis.line(X=cs((epoch, epoch)), Y=cs((train_gscore, valid_gscore)),
-                     update='append', win=vis_gscore, opts=dict(legend=['Train', 'Test']))
-            vis.line([now_ssim], X=[epoch], update='append', win=vis_ssim)'''
 
         if now_ssim > best_ssim:
             best_ssim = now_ssim
