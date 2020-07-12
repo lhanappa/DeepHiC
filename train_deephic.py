@@ -40,7 +40,7 @@ def train(data_dir, out_dir, lr=40000, hr=10000,
 
     # prepare training dataset
     train_file = os.path.join(
-        data_dir, f'deephic_{resos}_c{chunk}_s{stride}_b{bound}_{pool}_train.npz')
+        data_dir, 'train' ,f'deephic_{resos}_c{chunk}_s{stride}_b{bound}_{pool}_train.npz')
     train = np.load(train_file)
 
     train_data = torch.tensor(train['data'], dtype=torch.float)
@@ -51,7 +51,7 @@ def train(data_dir, out_dir, lr=40000, hr=10000,
 
     # prepare valid dataset
     valid_file = os.path.join(
-        data_dir, f'deephic_{resos}_c{chunk}_s{stride}_b{bound}_{pool}_valid.npz')
+        data_dir, 'valid', f'deephic_{resos}_c{chunk}_s{stride}_b{bound}_{pool}_valid.npz')
     valid = np.load(valid_file)
 
     valid_data = torch.tensor(valid['data'], dtype=torch.float)
