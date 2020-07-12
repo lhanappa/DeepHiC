@@ -78,7 +78,7 @@ def train(data_dir, out_dir, lr=40000, hr=10000,
     optimizerG = optim.Adam(netG.parameters(), lr=0.0001)
     optimizerD = optim.Adam(netD.parameters(), lr=0.0001)
 
-    vis = visdom.Visdom(env=f'{visdom_str}-deephic')
+    #vis = visdom.Visdom(env=f'{visdom_str}-deephic')
 
     best_ssim = 0
     for epoch in range(1, num_epochs+1):
@@ -168,7 +168,7 @@ def train(data_dir, out_dir, lr=40000, hr=10000,
         valid_dscore = valid_result['d_score'] / valid_result['nsamples']
         now_ssim = valid_result['ssim'].item()
 
-        if epoch == 1:
+        '''if epoch == 1:
             vis_dloss = vis.line(X=cs((epoch, epoch)), Y=cs((train_dloss, valid_dloss)), opts=dict(
                 title='Discriminator Loss', legend=['Train', 'Test']))
             vis_gloss = vis.line(X=cs((epoch, epoch)), Y=cs((train_gloss, valid_gloss)), opts=dict(
@@ -188,7 +188,7 @@ def train(data_dir, out_dir, lr=40000, hr=10000,
                      update='append', win=vis_dscore, opts=dict(legend=['Train', 'Test']))
             vis.line(X=cs((epoch, epoch)), Y=cs((train_gscore, valid_gscore)),
                      update='append', win=vis_gscore, opts=dict(legend=['Train', 'Test']))
-            vis.line([now_ssim], X=[epoch], update='append', win=vis_ssim)
+            vis.line([now_ssim], X=[epoch], update='append', win=vis_ssim)'''
 
         if now_ssim > best_ssim:
             best_ssim = now_ssim
