@@ -25,7 +25,7 @@ def deephic_divider(n, high_file, down_file, scale=1, pool_type='max', chunk=40,
                    out=np.zeros_like(hic), where=(hic.max()-hic.min()) != 0)
     #hic = hic / np.max(hic)
     down_hic = np.divide((down_hic-down_hic.min()), (down_hic.max()-down_hic.min()), dtype=float,
-                   out=np.zeros_like(down_hic), where=(donw_hic.max()-donw_hic.min()) != 0)
+                   out=np.zeros_like(down_hic), where=(down_hic.max()-down_hic.min()) != 0)
     #down_hic = down_hic / lr_cutoff
     # Deviding and Pooling (pooling is not performed actually)
     div_dhic, div_inds = divide(down_hic, n, chunk, stride, bound)
