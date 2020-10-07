@@ -20,7 +20,7 @@ def deephic_divider(n, high_file, down_file, scale=1, pool_type='max', chunk=40,
     # Clamping
     hic = np.minimum(hr_cutoff, hic)
     down_hic = np.minimum(lr_cutoff, down_hic)
-    # Rescaling
+    # Rescaling minmax
     hic = np.divide((hic-hic.min()), (hic.max()-hic.min()), dtype=float,
                    out=np.zeros_like(hic), where=(hic.max()-hic.min()) != 0)
     #hic = hic / np.max(hic)

@@ -60,7 +60,7 @@ def save_data_n(key, deep_hics, compacts, sizes, low_res, out_dir):
 
 def save_data(deep_hic, compact, size, file):
     deephic = spreadM(deep_hic, compact, size, convert_int=False, verbose=True)
-    np.savez_compressed(file, deephic=deephic, compact=compact)
+    np.savez_compressed(file, hic=deephic, compact=compact)
     print('Saving file:', file)
 
 def predict(data_dir, out_dir, lr=40000, ckpt_file=None):
