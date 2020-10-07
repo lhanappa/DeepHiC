@@ -78,7 +78,7 @@ def predict(data_dir, out_dir, lr=40000, ckpt_file=None):
     deephic_file = [f for f in files if f.find('.npz') >= 0][0]
 
     chunk, stride, bound, scale = filename_parser(deephic_file)
-
+    cuda = 0
     device = torch.device(f'cuda:{cuda}' if (torch.cuda.is_available() and cuda>-1 and cuda<torch.cuda.device_count()) else 'cpu')
     print(f'Using device: {device}')
     
