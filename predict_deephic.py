@@ -96,6 +96,7 @@ def predict(data_dir, out_dir, lr=40000, ckpt_file=None):
     
     def save_data_n(key):
         file = os.path.join(out_dir, f'predict_chr{key}_{low_res}.npz')
+        print(compacts[key].shape)
         save_data(deep_hics[key], compacts[key], sizes[key], file)
 
     pool = multiprocessing.Pool(processes=pool_num)
