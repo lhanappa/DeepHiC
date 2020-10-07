@@ -96,7 +96,9 @@ def predict(data_dir, out_dir, lr=40000, ckpt_file=None):
 
     pool = multiprocessing.Pool(processes=pool_num)
     print(f'Start a multiprocess pool with process_num = {pool_num} for saving predicted data')
+    print('Output path: ', out_dir)
     for key in compacts.keys():
+        print(key)
         pool.apply_async(save_data_n, (key,))
     pool.close()
     pool.join()
