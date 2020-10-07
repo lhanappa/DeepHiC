@@ -57,6 +57,8 @@ def deephic_predictor(deephic_loader, ckpt_file, scale, res_num, device):
 
 def save_data(deep_hic, compact, size, file):
     deephic = spreadM(deep_hic, compact, size, convert_int=False, verbose=True)
+    print(deep_hic.shape)
+    print(compact.shape)
     np.savez_compressed(file, deephic=deephic, compact=compact)
     print('Saving file:', file)
 
@@ -100,7 +102,7 @@ def predict(data_dir, out_dir, lr=40000, ckpt_file=None):
     for key in compacts.keys():
         print(key)
         pool.apply_async(save_data_n, (key,))
-    pool.join()
     pool.close()
+    pool.join()
     
     print(f'All data saved. Running cost is {(time.time()-start)/60:.1f} min.')
