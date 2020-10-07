@@ -1,7 +1,6 @@
 import os, sys
 import time
 import argparse
-import multiprocessing
 import numpy as np
 import torch
 from torch.utils.data import TensorDataset, DataLoader
@@ -65,11 +64,7 @@ def save_data(deep_hic, compact, size, file):
     print('Saving file:', file)
 
 def predict(data_dir, out_dir, lr=40000, ckpt_file=None):
-    print('WARNING: Predict process needs large memory, thus ensure that your machine have ~150G memory.')
-    if multiprocessing.cpu_count() > 23:
-        pool_num = 23
-    else:
-        exit()
+    print('WARNING: Predict process needs large memory, thus ensure that your machine have enough memory.')
 
     # IMPORTANT: The number of Resblock layers[default:5]' in all_parser.py
     res_num = 5
@@ -93,15 +88,9 @@ def predict(data_dir, out_dir, lr=40000, ckpt_file=None):
     indices, compacts, sizes = data_info(deephic_data)
     deep_hics = deephic_predictor(deephic_loader, ckpt_file, scale, res_num, device)
 
-    pool = multiprocessing.Pool(processes=pool_num)
-    print(f'Start a multiprocess pool with process_num = {pool_num} for saving predicted data')
-    print('Output path: ', out_dir)
-    results =[]
+    print(f'Start saving predicted data')
+    print(f'Output path: {out_dir}')
     for key in compacts.keys():
-        res = pool.apply_async(save_data_n, (key,deep_hics, compacts, sizes, low_res, ))
-        results.append(res)
-    [r.wait() for r in results]
-    pool.close()
-    pool.join()
+        save_data_n(key,deep_hics, compacts, sizes, low_res)
     
     print(f'All data saved. Running cost is {(time.time()-start)/60:.1f} min.')
