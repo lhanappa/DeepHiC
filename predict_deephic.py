@@ -70,7 +70,7 @@ def predict(data_dir, out_dir, lr=40000, ckpt_file=None):
 
     # IMPORTANT: The number of Resblock layers[default:5]' in all_parser.py
     res_num = 5
-    low_res = lr
+    low_res = str(lr)
     in_dir = data_dir
     os.makedirs(out_dir, exist_ok=True)
 
