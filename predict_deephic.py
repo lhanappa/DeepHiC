@@ -56,9 +56,11 @@ def deephic_predictor(deephic_loader, ckpt_file, scale, res_num, device):
     return deep_hics
 
 def save_data(deep_hic, compact, size, file):
-    deephic = spreadM(deep_hic, compact, size, convert_int=False, verbose=True)
+    print(file)
+    print(size)
     print(deep_hic.shape)
     print(compact.shape)
+    deephic = spreadM(deep_hic, compact, size, convert_int=False, verbose=True)
     np.savez_compressed(file, deephic=deephic, compact=compact)
     print('Saving file:', file)
 
