@@ -54,7 +54,7 @@ def deephic_predictor(deephic_loader, ckpt_file, scale, res_num, device):
     deep_hics = together(result_data, result_inds, tag='Reconstructing: ')
     return deep_hics
 
-def save_data_n(key, deep_hics, compacts, sizes, low_res):
+def save_data_n(key, deep_hics, compacts, sizes, low_res, out_dir):
     file = os.path.join(out_dir, f'predict_chr{key}_{low_res}.npz')
     save_data(deep_hics[key], compacts[key], sizes[key], file)
 
@@ -91,6 +91,6 @@ def predict(data_dir, out_dir, lr=40000, ckpt_file=None):
     print(f'Start saving predicted data')
     print(f'Output path: {out_dir}')
     for key in compacts.keys():
-        save_data_n(key,deep_hics, compacts, sizes, low_res)
+        save_data_n(key,deep_hics, compacts, sizes, low_res, out_dir)
     
     print(f'All data saved. Running cost is {(time.time()-start)/60:.1f} min.')
