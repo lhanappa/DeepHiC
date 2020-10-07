@@ -94,18 +94,20 @@ def predict(data_dir, out_dir, lr=40000, ckpt_file=None):
     indices, compacts, sizes = data_info(deephic_data)
     deep_hics = deephic_predictor(deephic_loader, ckpt_file, scale, res_num, device)
     
-    def save_data_n(key):
+    """def save_data_n(key):
         file = os.path.join(out_dir, f'predict_chr{key}_{low_res}.npz')
         print(compacts[key].shape)
-        save_data(deep_hics[key], compacts[key], sizes[key], file)
+        save_data(deep_hics[key], compacts[key], sizes[key], file)"""
 
     pool = multiprocessing.Pool(processes=pool_num)
     print(f'Start a multiprocess pool with process_num = {pool_num} for saving predicted data')
     print('Output path: ', out_dir)
     for key in compacts.keys():
         print(key)
-        pool.apply_async(save_data_n, (key,))
-    pool.close()
-    pool.join()
+        file = os.path.join(out_dir, f'predict_chr{key}_{low_res}.npz')
+        save_data(deep_hics[key], compacts[key], sizes[key], file)
+        #pool.apply_async(save_data_n, (key,))
+    #pool.close()
+    #pool.join()
     
     print(f'All data saved. Running cost is {(time.time()-start)/60:.1f} min.')
