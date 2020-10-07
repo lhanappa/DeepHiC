@@ -100,6 +100,7 @@ def predict(data_dir, out_dir, lr=40000, ckpt_file=None):
     for key in compacts.keys():
         print(key)
         pool.apply_async(save_data_n, (key,))
-    pool.close()
     pool.join()
+    pool.close()
+    
     print(f'All data saved. Running cost is {(time.time()-start)/60:.1f} min.')
