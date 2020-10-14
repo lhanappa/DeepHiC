@@ -54,8 +54,8 @@ def deephic_predictor(deephic_loader, ckpt_file, scale, res_num, device):
     deep_hics = together(result_data, result_inds, tag='Reconstructing: ')
     return deep_hics
 
-def save_data_n(key, deep_hics, compacts, sizes, low_res, out_dir):
-    file = os.path.join(out_dir, f'predict_chr{key}_{low_res}.npz')
+def save_data_n(key, deep_hics, compacts, sizes, high_res, out_dir):
+    file = os.path.join(out_dir, f'predict_chr{key}_{high_res}.npz')
     save_data(deep_hics[key], compacts[key], sizes[key], file)
 
 def save_data(deep_hic, compact, size, file):
@@ -63,11 +63,12 @@ def save_data(deep_hic, compact, size, file):
     np.savez_compressed(file, hic=deephic, compact=compact)
     print('Saving file:', file)
 
-def predict(data_dir, out_dir, lr=40000, ckpt_file=None):
+def predict(data_dir, out_dir, lr=40000, hr=10000, ckpt_file=None):
     print('WARNING: Predict process needs large memory, thus ensure that your machine have enough memory.')
 
     # IMPORTANT: The number of Resblock layers[default:5]' in all_parser.py
     res_num = 5
+    high_res = str(hr)
     low_res = str(lr)
     in_dir = data_dir
     os.makedirs(out_dir, exist_ok=True)
@@ -91,6 +92,6 @@ def predict(data_dir, out_dir, lr=40000, ckpt_file=None):
     print(f'Start saving predicted data')
     print(f'Output path: {out_dir}')
     for key in compacts.keys():
-        save_data_n(key,deep_hics, compacts, sizes, low_res, out_dir)
+        save_data_n(key,deep_hics, compacts, sizes, high_res, out_dir)
     
     print(f'All data saved. Running cost is {(time.time()-start)/60:.1f} min.')
